@@ -17,6 +17,7 @@ Vagrant.configure("2") do |config|
         yum install -y mc ntp nfs-utils
         systemctl enable --now nfs-server
         mkdir -p /srv/nfs/upload
+        chmod 777 /srv/nfs/upload
         echo "/srv/nfs	192.168.10.20(rw,sync,no_root_squash,no_all_squash)" >> /etc/exports
         exportfs -rav
         systemctl enable --now firewalld
@@ -40,7 +41,7 @@ Vagrant.configure("2") do |config|
         yum install -y epel-release
         yum install -y mc ntp nfs-utils
         mkdir -p /mnt/nfs
-        echo "192.168.10.10:/srv/nfs	/mnt/nfs	nfs	defaults,nfsvers=3,udp	0	0" >> /etc/fstab
+        echo "192.168.10.10:/srv/nfs	/mnt/nfs	nfs	defaults,nfsvers=3,udp,x-systemd.automount	0	0" >> /etc/fstab
         mount -a
       SHELL
     end
